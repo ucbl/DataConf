@@ -1,0 +1,44 @@
+<!doctype html>
+<%-- Problem jetty do not recognize jstl <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>--%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<html>
+    <head>
+
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+            <title>${applicationScope.confName} - The Publications</title>
+            <!-- CSS & JQUERY UI && JQUERY VALIDATION-->
+            <link rel="stylesheet" href="css/jquery-ui.css" type="text/css">
+            <link rel="stylesheet" href="css/layout-scan.css" type="text/css">
+
+            <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
+            <link rel="shortcut icon" href="images/www-ico.png" />
+            <!-- CDN JQUERY & JQUERY UI Lib -->
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+            <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js" type="text/javascript"></script>
+            <!-- Validation Lib -->
+            <script src="js/lib/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+            <script src="js/lib/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+            <!-- Local Storage & HashChange Lib -->
+            <script src="js/lib/hashchange.min.js" type="text/javascript"></script>
+            <script src="js/lib/jstorage.min.js"  type="text/javascript"></script>
+           
+            <!-- Model -->
+            <script src="js/application/model/SparqlEndpoint.js" type="text/javascript"></script>
+            <script src="js/application/model/SparqlEndpointBuilder.js" type="text/javascript"></script>
+            <script src="js/application/model/SWDFBuilder.js" type="text/javascript"></script>
+            <script src="js/application/model/SWDFManager.js" type="text/javascript"></script>
+       		<script src="js/application/model/ConfigurationManager.js" type="text/javascript"></script>
+            <!-- View -->
+            <script src="js/application/view/CompositeView.js" type="text/javascript"></script>
+            <script src="js/application/view/home/HomeView.js" type="text/javascript"></script>
+            <!-- Controller -->
+            <script src="js/application/presenter/HomePresenter.js" type="text/javascript"></script>
+            <!-- Main -->
+         
+       		<script type="text/javascript"><%@ include file="../js/mainHome.js"%></script>
+    </head>
+<body>
+
+
+<img src="images/loader.gif" alt=""  id="ajax-loader" style="display: none" />

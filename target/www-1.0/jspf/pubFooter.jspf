@@ -1,0 +1,11 @@
+<footer>
+    <nav class="footer-poster-bar gradBlack">
+	<ul>
+                <li><a href="http://liris.cnrs.fr/lionel.medini/wiki/doku.php?id=www2012-posters-app"><span>About</span></a></li>
+                <li><a href="http://liris.cnrs.fr/lionel.medini/wiki/doku.php?id=www2012-posters-app#development_team"><span>Development Team</span></a></li>		
+	</ul>
+    </nav>
+</footer>
+
+</body>
+ </html>

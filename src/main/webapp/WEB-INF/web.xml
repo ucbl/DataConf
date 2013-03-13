@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <servlet>
+        <servlet-name>FrontController</servlet-name>
+        <servlet-class>ucbl.application.controller.FrontController</servlet-class>
+    </servlet>
+     <servlet>
+        <servlet-name>InitController</servlet-name>
+        <servlet-class>ucbl.application.controller.InitController</servlet-class>
+    </servlet>
+     <servlet>
+        <servlet-name>ConferenceController</servlet-name>
+        <servlet-class>ucbl.application.controller.ConferenceController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FrontController</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConferenceController</servlet-name>
+        <url-pattern>/conference</url-pattern>
+    </servlet-mapping>
+    <filter> 
+    	<filter-name>InitFilter</filter-name>
+    	<filter-class>ucbl.application.filter.InitFilter</filter-class> 
+  	</filter> 
+	<filter-mapping> 
+    	<filter-name>InitFilter</filter-name>
+    	<url-pattern>/</url-pattern> 
+    	<dispatcher>REQUEST</dispatcher> 
+  		<dispatcher>FORWARD</dispatcher>
+  	</filter-mapping> 
+  	 <servlet-mapping>
+        <servlet-name>InitController</servlet-name>
+        <url-pattern>/init</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/view/error/404.jsp</location>
+    </error-page>
+    <jsp-config>
+        <jsp-property-group>
+            <description>header and footer </description>
+            <url-pattern>/view/pub/*</url-pattern>
+            <include-prelude>/jspf/pubHeader.jspf</include-prelude>
+            <include-coda>/jspf/pubFooter.jspf</include-coda>
+        </jsp-property-group>
+        <jsp-property-group>
+            <description>header and footer conference</description>
+             <url-pattern>/Conference.jsp</url-pattern>
+            <include-prelude>/jspf/conferenceHeader.jspf</include-prelude>
+            <include-coda>/jspf/conferenceFooter.jspf</include-coda>
+        </jsp-property-group>
+                <jsp-property-group>
+            <description>header and footer conference</description>
+             <url-pattern>/Home.jsp</url-pattern>
+            <include-prelude>/jspf/homeHeader.jspf</include-prelude>
+            <include-coda>/jspf/homeFooter.jspf</include-coda>
+        </jsp-property-group>
+    </jsp-config>
+</web-app>

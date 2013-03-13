@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<conferences>
+		<conference name="iswc2012">
+			
+			<logoUri>http://iswc2012.semanticweb.org/sites/default/files/iswc_logo.jpg</logoUri>
+			<baseUri>http://data.semanticweb.org/</baseUri>
+			 <confId>conference/iswc/2012</confId>
+			  <tracks>
+				    <track>
+				        <name>Search all Papers</name>
+				        <controller>publication</controller>
+				        <trackId>/proceedings</trackId>
+				    </track>
+				    <track>
+				        <name>Search a Poster track paper</name>
+				        <controller>poster</controller>
+				        <trackId>/poster-demo-proceedings</trackId>
+				    </track>
+				    <track>
+				        <name>Search a industry track paper</name>
+				        <controller>industry</controller>
+				        <trackId>/industry-proceedings</trackId>
+				    </track>			  
+		
+	    	</tracks>
+		</conference>
+	</conferences>
+<datasources>
+		<datasource name="conferenceDatasource">
+			 <serviceUri>http://data.semanticweb.org/sparql</serviceUri> 
+			 <sparqlVersion></sparqlVersion>
+			 <managerName></managerName>
+			 <method></method>
+			 <dataType></dataType>
+			 <corsEnable></corsEnable>
+		</datasource>
+		
+		<datasource name="publicationDatasource">
+			<serviceUri>http://dblp.l3s.de/d2r/sparql</serviceUri>
+			<sparqlVersion></sparqlVersion>
+			<managerName></managerName>
+			<method></method>
+			<dataType></dataType>
+			<corsEnable></corsEnable>
+		</datasource>
+		
+		<datasource name="webDatasource">
+			<serviceUri>http://api.duckduckgo.com/</serviceUri>
+			<sparqlVersion></sparqlVersion>
+			<managerName></managerName>
+			<method></method>
+			<dataType></dataType>
+			<corsEnable></corsEnable>
+		</datasource>
+		
+		<datasource name="eventDatasource">
+			<serviceUri>http://api.duckduckgo.com/</serviceUri>
+			<sparqlVersion></sparqlVersion>
+			<managerName></managerName>
+			<method></method>
+			<dataType></dataType>
+			<corsEnable></corsEnable>
+		</datasource>	
+	</datasources>
+	
+</configuration>

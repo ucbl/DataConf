@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/> -->
+		
+		 <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+		<link rel="stylesheet" href="css/appStyle.css" />
+		<!--<link rel="stylesheet" href="css/themes/A.min.css" />-->
+
+		<!--<link rel="stylesheet" href="css/themes/E.min.css" />-->
+		<link rel="stylesheet" href="css/themes/D.min.css" />
+
+		<!--<link rel="stylesheet" href="css/themes/C.min.css" />-->
+		<!--<link rel="stylesheet" href="css/themes/D.min.css" />-->
+		<link rel="stylesheet" href="css/themes/C.min.css" />
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="js/lib/jqm-config.js"></script>
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
+		<title>DataConf - mashup app</title>
+	
+	
+		<!-- Validation Lib -->
+		<script src="js/lib/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/lib/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+		
+		<!-- Local Storage -->
+		<script src="js/lib/jstorage.min.js"  type="text/javascript"></script>
+	   
+			
+		<!-- BackBone -->
+		<script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+		<script src="js/lib/underscore.js" type="text/javascript" charset="utf-8"></script> 
+		<script src="js/lib/backbone.js" type="text/javascript" charset="utf-8"></script>
+		
+										<!-- Core -->
+
+		<script src="js/core/Datasource.js" type="text/javascript"></script>
+		<script src="js/core/Command.js" type="text/javascript"></script>
+ 
+
+									<!-- Application  -->
+				
+		<!-- model -->
+		<script src="js/application/model/SWDFCommandStore.js" type="text/javascript"></script>
+		<!--<script src="js/application/model/DBLPCommandStore.js" type="text/javascript"></script>-->
+
+		<!-- Configuration -->
+
+		<script src="js/application/configuration/Configuration.js" type="text/javascript"></script>
+		<!-- EntryPoint -->
+		<script src="js/application/entryPoint/main.js" type="text/javascript"></script>
+		
+		<!-- Router -->
+		<script src="js/application/router/AppRouter.js" type="text/javascript"></script>
+		
+		<!-- view -->
+		<script src="js/application/view/AbstractView.js" type="text/javascript"></script>
+
+		<!-- config 
+		<script src="js/core/configurations/configure.js" type="text/javascript"></script>-->
+	
+									<!-- TEMPLATES  -->
+										
+		 <script type="text/template" id="header" >
+			<header data-role="header" data-position="inline" data-theme="a">
+        <div id="logoContainer">
+          <a class="ui-btn-left" href="" style=''><img src ="<%= logoUri %>" alt="logoConference"/></a>
+				</div>
+				<div id="textHeader">
+				<h1 id="DataConf">DataConf</h1>
+				<h1><%= name %> - Publications</h1>
+        </div>
+			</header>
+		</script>
+		
+		<script type="text/template" id="footer">
+			<footer id="footer" data-role="footer" data-position="fixed">
+				<div data-role="navbar" class="ui-navbar ui-navbar-noicons" role="navigation" >
+				<ul class="ui-grid">
+					<li class="ui-block-a"><a href="http://liris.cnrs.fr/lionel.medini/wiki/doku.php?id=www2012-posters-app"><span>About</span></a></li>
+					<li class="ui-block-b"><a href="http://liris.cnrs.fr/lionel.medini/wiki/doku.php?id=www2012-posters-app#development_team"><span>Development Team</span></a></li>		
+				</ul>
+				</div>
+			</footer>
+		</script>
+
+
+		<script type="text/template" id="navBar" >
+		  <!-- Publication Bar -->
+				<div data-role="navbar" class="ui-navbar ui-navbar-noicons" role="navigation" >
+					<ul>
+						<li><a href="">Home</a></li>       
+						<li><a href="#searchPoster" id="navSearchPoster">Search Publication</a></li>  
+						<li><a href="#chatPage">Recommended publications</a></li>
+					</ul>
+				</div> 
+		</script>		
+
+		 
+		<script type="text/template" id="home">	
+			<div class="content">
+				<h3 style="text-align: center">From here, you can look for any publications :</h3>
+				<a href="scan/"  data-role="button" data-icon="arrow-r" data-iconpos="right">Scan a QRcode</a>    
+				<a href="#proceedings-search" data-role="button" data-icon="arrow-r" data-iconpos="right">Search in proceedings</a>
+				
+			</div>     	
+		</script>
+ 
+		
+		<!-- Search a publication  by Author,by Keyword,by Title... -->
+		<script type="text/template" id="proceedingsSearch"> 
+			<div class="content">
+				<h1 class="searchTrack"></h1>
+				<ul class="list gradWhite">   
+					<li><a href="#proceedings-search/by-author"  data-role="button" data-icon="arrow-r" data-iconpos="right">Search By Author</a></li>
+					<li><a href="#proceedings-search/by-keyword" data-role="button" data-icon="arrow-r" data-iconpos="right">Search By Keyword</a></li>
+					<li><a href="#proceedings-search/by-title"  data-role="button" data-icon="arrow-r" data-iconpos="right">Search By Title</a></li>
+				</ul>
+			</div>
+		</script>  
+
+		<!-- View an event  -->
+		<script type="text/template" id="event"> 
+			<div class="content">
+				<h3>Search in event</h3>  
+				
+			</div>      
+		</script> 
+		
+			<!-- Search a publiation By Author  -->
+		<script type="text/template" id="searchFormAuthor"> 
+			<div class="content">
+			    <h3>Search By Author</h3>
+			</div>
+		</script>  
+			<!-- Search a publiation By searchFormTitle  -->
+		<script type="text/template" id="searchFormTitle"> 
+			<div class="content">
+			    <h3>Search By Title</h3>  
+			</div> 
+		</script>  
+			<!-- Search a publiation By searchFormTitle  -->
+		<script type="text/template" id="searchFormKeyword"> 
+			<div class="content">
+			    <h3>Search By Keyword</h3>
+			</div>   
+		</script>  
+	</head>
+<body>
+
+
+
+
+ 
+
+ 
+	
+  
+
+
+  
+
+<section id="recommendation">		
+		<div>        
+			   <h1>Recommendation</h1>
+			   <h2>WWWW'2012 Poster</h2> 
+			   <ul id="recommendposterWWW2012" class="list gradWhite">            
+				   <li id="posternotFound">Not Found!</li>
+			   </ul>                                                           
+									
+			   <h2>WWWW'2012 Paper</h2> 
+			   <ul id="recommendpaperWWW2012" class="list gradWhite">            
+				   <li id="papernotFound">Not Found!</li>
+			   </ul>                                                           
+		  
+		</div> 
+</section>
+
+<section id="conference"> 
+   <div  class="content">
+			<div id="paperNumber"><h1></h1></div>
+			<div id="paperGraph" class="graphViewAS"></div>                                
+			<h2>Title</h2>
+			<div id="paperTitle"></div>
+
+			<h2>Author</h2>
+			<div id="paperAuthor"> </div>
+
+			<h2>Keyword</h2>
+			<div id="paperKeyword"> </div>
+
+			<h2>Abstract</h2>
+			<div id="paperAbstract"></div>
+   </div>            
+</section>
+
+<section id="person">
+	<div  class="content">
+		<h1>Author</h1>	
+			<div id="authorGraph" class="graphViewAS"></div> 
+			<h2>Name </h2>
+			<div id="authorName"></div>
+
+			<h2>Homepage </h2>
+			<div id="authorSite"></div>
+
+			<h2 id="labelAuthorOrganization">Organization </h2>
+			<div id="authorOrganization"></div>                              
+
+			<h2 id="labelAuthorPublication">WWW'2012 posters</h2>
+			<div id="authorPublication"></div>
+
+			<h2>Other publications </h2>
+			<div id="authorOtherPublication"></div> 
+
+			<h2>Co-authors </h2>
+			<div id="authorCoAuthors"></div>                           
+	 </div>           
+</section>
+
+<section id="organization">
+	   <div  class="content">
+		   <h1> Organization </h1>		                                
+				<div id="organizationGraph" class="graphViewAS"></div> 
+				<div id="organizationLogo"></div>
+				<h2>Name </h2>
+				<div id="organizationName"></div>                        
+
+				<h2>Homepage </h2>
+				<div id="organizationSite"></div>
+			   
+				<h2>Member </h2>
+				<div id="organizationMember"></div>
+	   </div>                  
+</section>
+
+<section id="conf">		   
+	<div  class="content">
+	   <h1>Conference publication</h1>			
+			<div id="confPublicationGraph" class="graphViewAS"></div>
+			<h2>Title </h2>
+			<div id="confPublicationTitle"></div>
+
+			<h2>Url </h2>
+			<div id="confPublicationUrl"></div>
+
+			<h2>Year </h2>
+			<div id="confPublicationYear"></div>
+
+			<h2>Authors </h2>
+			<div id="confPublicationAuthor"></div>
+
+			<h2>Conference </h2>
+			<div id="confPublicationConference"></div>
+
+			<h2>Publisher </h2>
+			<div id="confPublicationPublisher"></div>
+	  </div>      
+</section>
+
+<section id="journals">                  
+	   <div  class="content">
+		  <h1>Journal publication</h1>		
+				<div id="journalPublicationGraph" class="graphViewAS"></div>
+				<h2>Publication </h2>
+				<div id="journalPublicationTitle"></div>
+
+				<h2>Url </h2>
+				<div id="journalPublicationUrl"></div>
+
+				<h2>Year </h2>
+				<div id="journalPublicationYear"></div>
+
+				<h2>Authors </h2>
+				<div id="journalPublicationAuthor"></div>
+
+				<h2>Journal </h2>
+				<div id="journalPublicationJournal"></div>				
+	  </div>            
+</section>
+
+ <section id="topicDetail">	
+
+	  <h1> Topic </h1>	
+
+	<h2> Label </h2>
+	<div id="topicLabel"></div>
+
+	<h2> Publication </h2>
+	<div id="topicPublication"></div>
+    
+ </section>
+ <section id="keyword">	
+  <div  class="content">                                                                   
+			<h1> Keyword </h1>	                      
+				<h2> Keyword </h2>
+				<div id="keywordLabel"></div>
+				<h2> WWW'2012 posters </h2>
+				<div id="keywordPublication"></div>
+				<h2> Equivalent keywords </h2>
+				<div id="equiKeyword"></div>   
+				<h2> More specific Keywords </h2>
+				<div id="subKeyword"></div>   
+				<h2> Upper level keywords </h2>
+				<div id="upperKeyword"></div>   
+  </div>            
+ </section>
+ <section id="graph">	
+	  <div  class="content">
+		  <h1> Graph </h1>	                                                      
+				<div id="viewAsText"></div>                                
+				<div id="currentNode"></div>                                
+				<div id="infovis"></div>                                                                                                                                
+	  </div>
+ </section>
+ <section id="workshopDetail">	
+		<header> 
+				<span><a href="${pageContext.request.contextPath}/" class="shortTitle"></a></span>
+		</header>
+
+		<!-- Poster Bar -->
+		<nav class="poster-bar gradWhite">
+			<ul>
+				<li><a href="${pageContext.request.contextPath}/" class="tab-active"><span>Home</span></a></li>       
+				<li><a href="${pageContext.request.contextPath}/" id="navSearchPoster"><span>Search a Publication</span></a></li>
+
+				<li><a href="#recommendation"><span>Poster recommendation</span></a></li>
+			</ul>
+		</nav>   
+
+	<div  class="content">
+				<div id="paperNumber"><h1></h1></div>
+				<div id="graphPoster" class="graphViewAS"></div>                                
+				<h2>Title</h2>
+				<div id="paperTitle"></div>
+
+				<h2>Author</h2>
+				<div id="paperAuthor"> </div>
+
+				<h2>Keyword</h2>
+				<div id="paperKeyword"> </div>
+
+				<h2>Abstract</h2>
+				<div id="paperAbstract"></div>
+	</div>            
+ </section>               
+ 
+            
+
+
+
+
+</body>
+ </html>

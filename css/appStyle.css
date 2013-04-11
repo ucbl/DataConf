@@ -1,0 +1,31 @@
+#logoContainer{
+  max-height : 2%;
+  max-width : 2%;
+}
+
+#logoContainer img {
+  verical-align :middle;
+  height : 70%;
+  width : 70%;
+  border-radius: 4px; /* propriété CSS3 */
+  -moz-border-radius: 4px; /* compatibilité avec Firefox */
+  -webkit-border-radius: 4px; /* compatibilité avec les navigateurs Webkit */
+  
+   
+}
+
+#textHeader H1{
+  text-align: center;
+  font-size: 20px;
+}
+
+#textHeader #DataConf{
+  text-align: center;
+  font-size: 40px; 
+}
+
+
+
+
+
+

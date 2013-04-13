@@ -14,20 +14,20 @@
 				},
 				
 				"publicationDatasource" : {
-					"Uri" : "http://dblp.l3s.de/d2r/sparql",
-					"crossDomainMode" : "Cors",
-					"commands" : "conferenceDatasourceCommands",
+					"uri" : "http://dblp.l3s.de/d2r/sparql",
+					"crossDomainMode" : "JSONP",
+					"commands" : DBLPCommandStore,
 				},
 
 				"webDatasource" : {   
-					"Uri" : "http://api.duckduckgo.com/",
+					"uri" : "http://api.duckduckgo.com/",
 					"crossDomainMode" : "JSONP",
 					"commands" : "conferenceDatasourceCommands",
 				},
 				
 				"eventDatasource" : {
 
-					"Uri" : "http://calendar.labs.idci.fr/api/schedule_event.jsonp?",
+					"uri" : "http://calendar.labs.idci.fr/api/schedule_event.jsonp?",
 					"crossDomainMode" : "JSONP",
 					"commands" : "conferenceDatasourceCommands",
 				}
@@ -39,8 +39,8 @@
 					"view" : "#home",
 					"commands" : [ 
 						{
-						"datasource" : "conferenceDatasource",
-						"name" : "getConferenceMainEvent",
+						    "datasource" : "conferenceDatasource",
+						    "name" : "getConferenceMainEvent",
 						}
 					]
 				}, 
@@ -57,6 +57,16 @@
 					    {
 							"datasource" : "conferenceDatasource",
 							"name" : "getAllAuthors",
+						} 
+					]
+				},
+			    "Proceedings-search-author" : { 
+					"hash" : "proceedings-search/author-:author",
+					"view" : "#searchFormAuthorProceedings",
+					"commands" : [
+					    {
+							"datasource" : "conferenceDatasource",
+							"name" : "getAuthorsProceedings",
 						} 
 					]
 				},
@@ -86,8 +96,35 @@
 					"commands" : [
 						{
 							"datasource" : "conferenceDatasource",
+							"name" : "getEvent",
+						},
+						{
+							"datasource" : "conferenceDatasource",
 							"name" : "getSubEvent",
+						
+						},
+						{
+							"datasource" : "conferenceDatasource",
+							"name" : "getEventPublications",
 						}
+					]
+				},
+				"Publication" : { 
+					"hash" : "publication/:id",
+					"view" : "#publication",
+					"commands" : [
+						{
+							"datasource" : "conferenceDatasource",
+							"name" : "getPublicationInfo",
+						},
+						{
+							"datasource" : "conferenceDatasource",
+							"name" : "getPublicationAuthor",
+						},	
+						{
+							"datasource" : "conferenceDatasource",
+							"name" : "getPublicationKeywords",
+						}	
 					]
 				},
 				"Person" : {
@@ -109,7 +146,54 @@
 							"name" : "getPublications",
 						}
 					]
+				},
+				"Author" : {
+					"hash" : "author/:id",
+					"view" : "#author",
+					"commands" : [
+					    {
+							"datasource" : "publicationDatasource",
+							"name" : "getAuthor",
+						},
+						{
+							"datasource" : "conferenceDatasource",
+							"name" : "getAuthorsProceedings",
+						},
+						{
+							"datasource" : "conferenceDatasource",
+							"name" : "getAuthorOrganization",
+						}
+					]
+				},
+				"ExternPublication" : {
+					"hash" : "externPublication/:id",
+					"view" : "#externPublication",
+					"commands" : [
+					    {
+							"datasource" : "publicationDatasource",
+							"name" : "getExternPublicationInfo",
+						}
+					]
+				},
+				"Keyword" : {
+					"hash" : "keyword/:id",
+					"view" : "#keyword",
+					"commands" : [
+					    {
+							"datasource" : "conferenceDatasource",
+							"name" : "getPublicationsByKeyword",
+						}
+					]
+				},
+				"Organization" : {
+					"hash" : "organization/:id",
+					"view" : "#organization",
+					"commands" : [
+					    {
+							"datasource" : "conferenceDatasource",
+							"name" : "getOrganization",
+						}
+					]
 				}
-			
 			}
 		};

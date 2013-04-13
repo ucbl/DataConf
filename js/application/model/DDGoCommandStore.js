@@ -6,13 +6,12 @@
  *   Tags:  
  **/
  
-//First Part SWDF commands file, Second Part : ModelCallBack function definition 
+
 //Web Service REST
- var DDGoCommandStore = {};
+ var DDGoCommandStore = {
  
- //Command getAuthorSuggestion 
-DDGoCommandStore.getResult= {
-                                  name: "getResult",
+ //Command getResult
+getResult= {
                                   dataType : "JSON",
                                   method : "GET",
                                   getQuery : function(parameters){ //JSON file parameters 
@@ -21,14 +20,13 @@ DDGoCommandStore.getResult= {
                                                 var query = dataSourceUri+'?q='+searchValue+'&format=json&pretty=1&no_redirect=1',;//Put in URL (method get)
                                                    return query ; 
                                            },
-                                  ModelCallBack : getResultMethodCallBack 
-                                  })
+                                  ModelCallBack : function getResultMethodCallBack(dataJSON){
+																	$(self.prefix+'Site').append('<span><a href="'+ dataJSON.Redirect +'" >' + dataJSON.Redirect +'</a></span>');
+									}
+}
                                
 
+};//End DDGoCommandStore file
 
-//.......................ModelCallBack................................
 
-//CallBack for the command getResult on DDGo     
-function getResultMethodCallBack(dataJSON){
-               $(self.prefix+'Site').append('<span><a href="'+ dataJSON.Redirect +'" >' + dataJSON.Redirect +'</a></span>');
-    }
+   

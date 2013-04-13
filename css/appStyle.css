@@ -1,28 +1,35 @@
+
+ H2, H3 {
+	color : #C96E28;
+
+}
+
 #logoContainer{
-  max-height : 2%;
-  max-width : 2%;
+	float:left;
+	height : 100px;
+	width : 200px;
+}
+
+#logoContainer a {
+  height : 100%;
+  width : 100%;
 }
 
 #logoContainer img {
-  verical-align :middle;
-  height : 70%;
-  width : 70%;
+  height : 100%;
+  width : 100%;
+  box-shadow: 8px 8px 12px #aaa;
   border-radius: 4px; /* propriété CSS3 */
   -moz-border-radius: 4px; /* compatibilité avec Firefox */
   -webkit-border-radius: 4px; /* compatibilité avec les navigateurs Webkit */
-  
-   
 }
 
 #textHeader H1{
   text-align: center;
-  font-size: 20px;
+  font-size: 30px;
 }
 
-#textHeader #DataConf{
-  text-align: center;
-  font-size: 40px; 
-}
+
 
 
 

@@ -8,3 +8,15 @@ DataConf aggregates conference metadata. It allows browsing conference publicati
 DataConf is deployable for any conference with available metadata on the Web using a configuration file. During the challenge, we will demonstrate it in its ecosystem, namely the SWDF and DBLP endpoints and several Web services.
 
 The DataConf homepage is located at: http://liris.cnrs.fr/lionel.medini/wiki/doku.php?id=dataconf
+
+===========
+Version status
+===========
+V. 0.7: 
+Date: 2013/04/13
+
+Fully functional:
+  * Application core
+  * Publication datasources:
+    * SWDF: fully functional, configured for the ISWC’2012 dataset
+    * DBLP: fully functional, but the endpoint seems to experiment latency issues

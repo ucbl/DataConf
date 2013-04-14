@@ -180,11 +180,6 @@
 							"datasource" : "DblpDatasource",
 							"name" : "getPublications",
 						},
-						
-						{
-							"datasource" : "DblpDatasource",
-							"name" : "getPublications",
-						},
 					]
 				},
 				"Author" : {

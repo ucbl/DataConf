@@ -64,7 +64,7 @@
 			    "Home" : { 
 					"hash" : "",
 					"view" : "home",
-					"title": "ISCW - publications",
+					"title": "ISCW'2012 - DataConf",
 					"commands" : [ 
 						{
 						    "datasource" : "SemanticWebDogFoodDatasource",

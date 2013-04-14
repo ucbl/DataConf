@@ -20,3 +20,13 @@ Fully functional:
   * Publication datasources:
     * SWDF: fully functional, configured for the ISWC’2012 dataset
     * DBLP: fully functional, but the endpoint seems to experiment latency issues
+---------
+V. 0.8:
+Date: 2013/04/14
+
+  * Refactored the view templating system
+    * All view templates are now located in /templates, so that conference managers can create their own if needed
+    * if a route refers to a non-existing template in the configuration file, an empty one is created
+  * Added 2 datasources:
+    * DuckDuckGo! to retrieve authors' organisation data
+    * Google web service to solve DuckDuckGo!'s irrelevancy in retrieving authors' homepages

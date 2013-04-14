@@ -126,7 +126,7 @@
 				"Event" : { 
 					"hash" : "event/*id",
 					"view" : "event",
-					"title": "Search in event",
+					"title": "Track",
 					"commands" : [
 						{
 							"datasource" : "SemanticWebDogFoodDatasource",

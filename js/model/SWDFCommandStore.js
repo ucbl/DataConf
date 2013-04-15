@@ -270,7 +270,7 @@ var SWDFCommandStore = {
 			if( textResult == "")return;
 			var nBresult= result.length;
 			
-			$("[data-role = page]").find(".content").append($('<h2>SubEvent</h2>'));
+			$("[data-role = page]").find(".content").append($('<h2>Subtacks</h2>'));
 			if(nBresult>5)ViewAdapter.appendFilterList(dataXML,'#event/','eventUri',
 				{
 					show:{"eventLabel":{

@@ -44,7 +44,7 @@
 		},
 		ModelCallBack : function (dataJSON){
 			if(dataJSON.Heading !== undefined)	$("[data-role = page]").find(".content").prepend('<h3>Author  '+dataJSON.Heading+'</h3>').trigger("create");	
-			//Due to privacy issues, we prefr not to show persona images o the interface.
+			//Due to privacy issues, we prefr not to show persona images on the interface.
 			//if(dataJSON.Image !== undefined)	$("[data-role = page]").find(".content").prepend('<img src="'+ dataJSON.Image+'" alt="OrganizationLogo" height="60" width="60" style="box-shadow: 8px 8px 12px #aaa;">').trigger("create");	
 		}
 	}                      

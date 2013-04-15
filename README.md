@@ -18,8 +18,8 @@ Date: 2013/04/13
 Fully functional:
   * Application core
   * Publication datasources:
-    * SWDF: fully functional, configured for the ISWC’2012 dataset
-    * DBLP: fully functional, but the endpoint seems to experiment latency issues
+    * SWDF: functional, configured for the ISWC’2012 dataset
+    * DBLP: functional, but the endpoint seems to experiment latency issues
 
 ---------
 V. 0.8:

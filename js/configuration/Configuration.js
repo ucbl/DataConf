@@ -166,22 +166,6 @@
 						}*/
 					]
 				},
-				"Person" : {
-					"hash" : "Person/:id",
-					"view" : "PersonView",
-					"title": "Person",
-					"commands" : [
-					    {
-							"datasource" : "SemanticWebDogFoodDatasource",
-							"name" : "getPublications",
-						},
-						
-						{
-							"datasource" : "DblpDatasource",
-							"name" : "getPublications",
-						},
-					]
-				},
 				"Author" : {
 					"hash" : "author/:id",
 					"view" : "author",

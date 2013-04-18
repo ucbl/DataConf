@@ -40,6 +40,6 @@ Date: 2013/04/18
   * Model and view callbacks communicate now using JSON objects
   * Simplified the routes and reduced the number of Backbone-triggered events to speed up the interface
   * Works for the main (SWDF, even if it requests anothe endpoint), Google and DuckDuckGo! datasources
-  * Added experimental graph view (may be slow, especially on mobile phones).
+  * Added experimental graph view using http://arborjs.org/ (may be slow, especially on mobile phones).
 
 Currently works on our duplicate WWW'2012 dataset (SWDF seems down since the beginning of the week)

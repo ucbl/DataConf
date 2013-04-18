@@ -14,8 +14,9 @@
 	getAuthor : {
 		dataType : "JSONP",
 		method : "GET",
-		getQuery : function(parameters){ //JSON file parameters 
-			var authorName = parameters.id.split("_").join(" ");
+		getQuery : function(parameters){ 
+			var authorName = parameters.name.split("_").join(" ");
+				
 			var prefix =   ' PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ' + 
 								' PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>      ' +
 								' PREFIX owl: <http://www.w3.org/2002/07/owl#>              ' +
@@ -34,25 +35,44 @@
 			var  ajaxData = { query : prefix+query , output : "json"};
 			return ajaxData;
 	},
-	 ModelCallBack : function(dataJSON){ 
-		$("[data-role = page]").find(".content").append("<div id='otherPublication'><h2>Other Publications</h2></div>");
-		$.each(dataJSON.results.bindings,function(i,item){
-							var publiUri  = this.OtherPublicationUri.value;
-							var publiTitle  = this.OtherPublicationTitle.value;
-						   var newButton = $('<a href="#externPublication/'+publiTitle.split(' ').join('_')+'" data-role="button" data-icon="arrow-r" data-iconpos="right" >'+publiTitle+'</a>'); 
-						  $("[data-role = page]").find(".content").append(newButton).trigger("create");                             
-				  });
-
+	
+		ModelCallBack : function(dataJSON,conferenceUri,datasourceUri, currentUri){ 
+			var result = dataJSON.results.bindings.length;
+			if( result != 0){
+				var JSONfile = {};
+				$.each(dataJSON.results.bindings,function(i,item){  
+					var JSONToken = {};
+					JSONToken.publiUri  = this.OtherPublicationUri.value;
+					JSONToken.publiTitle  = this.OtherPublicationTitle.value;
+					JSONfile[i] = JSONToken;
+				});
+				StorageManager.pushToStorage(currentUri,"getAuthor",JSONfile);
+			}
+		},
+		
+		ViewCallBack : function(parameters){ 
+			var JSONdata = parameters.JSONdata;
+			if(JSONdata != null){
+				if(JSONdata.hasOwnProperty("getAuthor")){
+					var publicationList = JSONdata.getAuthor;
+					if(_.size(publicationList) > 0 ){
+						parameters.contentEl.append('<h2>Other Publications</h2>');
+						$.each(publicationList, function(i,publication){
+							ViewAdapter.appendButton(parameters.contentEl,'#externPublication/'+publication.publiTitle.split(" ").join("_")+'/'+publication.publiUri,publication.publiTitle);
+						});
+					}
+				}
+			}
 		}
-	  },    
+	},
                                 
                                 
 	getExternPublicationInfo : {
 		dataType : "JSONP",
 		method : "GET",
 		getQuery : function(parameters){ //JSON file parameters 
-			var publicationTitle = parameters.id.split('_').join(' '); 
-			var  type  = "^^xsd:string";
+			var publicationTitle = parameters.name.split("_").join(" ");
+			var  type  = "^^xsd:string";//DBLP ontology
 			var prefix =   ' PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ' + 
 								' PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>      ' +
 								' PREFIX owl: <http://www.w3.org/2002/07/owl#>              ' +
@@ -75,25 +95,56 @@
 			var  ajaxData = { query : prefix+query , output : "json"};
 			return ajaxData;
 		},
-		ModelCallBack : function(dataJSON){
-			$("[data-role = page]").find(".content").append("<div id='externPublication'><h2>Extern Publication</h2></div>");
-				$.each(dataJSON.results.bindings,function(i,item){
-				var title       = this.Title.value;
-				var conf        = this.Conference.value;
-				var year        = this.Year.value;
-				var publisher = this.Publisher.value;
+		ModelCallBack : function(dataJSON,conferenceUri,datasourceUri, currentUri){
+			var result = dataJSON.results.bindings.length;
+			if( result != 0){
+				var JSONfile = {};
+				$.each(dataJSON.results.bindings,function(i,item){  
+					var JSONToken = {};
+					JSONToken.title       = this.Title.value;
+					JSONToken.conf        = this.Conference.value;
+					JSONToken.year        = this.Year.value;
+					JSONToken.publisher   = this.Publisher.value;
+					JSONfile[i] = JSONToken;
+				});
+				StorageManager.pushToStorage(currentUri,"getExternPublicationInfo",JSONfile);
+			}
+		},
+		
+		ViewCallBack : function(parameters){
+	
+		var JSONdata = parameters.JSONdata;
+		var conferenceUri = parameters.conferenceUri;
+
+			if(JSONdata.hasOwnProperty("getExternPublicationInfo")){
+				var publiInfo = JSONdata.getExternPublicationInfo;
+				if(_.size(eventInfo) > 0 ){
+							  
+					var title  = publiInfo[0].title;				
+					var conf  = publiInfo[0].conf;	
+					var year  = publiInfo[0].year;	
+					var publisher  = publiInfo[0].publisher;	
 					
-				$("[data-role = page]").find(".content").append('<h2>Titre</h2>').trigger("create");	
-				$("[data-role = page]").find(".content").append('<p>'+title+'</p>').trigger("create");
-				$("[data-role = page]").find(".content").append('<h2>Year</h2>').trigger("create");
-				$("[data-role = page]").find(".content").append('<p>'+year+'</p>').trigger("create"); 
-				$("[data-role = page]").find(".content").append('<h2>Conference</h2>').trigger("create");
-				$("[data-role = page]").find(".content").append('<p>'+conf+'</p>').trigger("create"); 
-				$("[data-role = page]").find(".content").append('<h2>Publisher</h2>').trigger("create");
-				$("[data-role = page]").find(".content").append('<p>'+publisher+'</p>').trigger("create"); 
-																								  
-			});
-		}										  
+				
+					if(title != ""){  
+						parameters.contentEl.append('<h2>Title</h2>');
+						parameters.contentEl.find(".content").append('<p>'+title+'</p>'); 
+					} 
+					if(conf != ""){ 
+						parameters.contentEl.find(".content").append('<h2>Conference</h2>');
+						parameters.contentEl.find(".content").append('<p>'+conf+'</p>');
+					}
+					if(year != ""){ 
+						parameters.contentEl.find(".content").append('<h2>Year</h2>');
+						parameters.contentEl.find(".content").append('<p>'+year+'</p>'); 
+					}
+					if(publisher !=""){ 
+						parameters.contentEl.find(".content").append('<h2>Publisher</h2>');
+						parameters.contentEl.find(".content").append('<p>'+publisher+'</p>'); 
+					}			  
+				}
+			}
+		}
 	}
 
 };//End DBLPCommandStore JSON file  

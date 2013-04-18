@@ -4,85 +4,15 @@
 *   Author: Lionel MEDINI(supervisor), Florian BACLE, Fiona LEPEUTREC, Benoît DURANT-DE-LA-PASTELLIERE, NGUYEN Hoang Duy Tan
 *   Description: This file provide simple function to build jquery mobile element such as button or sorted list plus some graph first attempt
 *   Version: 0.8
-*   Tags:  JQuery-Mobile
+*   Tags:  Backbone Jquery-ui-mobile Adapter 
 **/
  (function(){
 
-var ViewAdapter
+var ViewAdapter;
 var root = this;
 ViewAdapter = root.ViewAdapter = {};
 
-var Graph = ViewAdapter.Graph=function(queryUrl,command,conferenceUri){
-    var graph=this
-    var queryUrl=queryUrl;
-    var comman=command;
-    var canvasId=canvasId;
-    var canvasId = "graph";
-    var conferenceUri=conferenceUri;
-    
-    this.showGraph = function(uri){
-        var button = appendButton('javascript:void(0)','view as graph',{tiny:true,theme:"a",prepend:true, align : "right"});
-        uri = uri.replace(/(\r\n|\n|\r|\t)/gm,"");
-        var isFirst=true; 
-       var canvas; 
-        button.toggle(function(){
-            canvas = prependToBackboneView('<canvas style="clear:both;" id="'+canvasId+'">').hide().show("slow");
-            $(this).find('.ui-btn-text').html("hide graph");
-            if(!isFirst){return;}
-            updateGraph(uri); 
-            
-        },function(){ 
-            canvas.hide("slow",function(){$(this).remove();}); 
-            $(this).find('.ui-btn-text').html("view as graph");
-        });
-    };
 
-    function updateGraph( uri){
-
-		var result=undefined;
-		$.ajax({
-			url: queryUrl,
-			type: command.method,
-			cache: false,
-			async: false,
-			dataType: command.dataType,
-			data: {query : command.getQuery({entity:uri}).query },							
-			success: function(dataXML){ 
-						result = $(dataXML).find("sparql > results> result"); 
-					},
-			error: function(jqXHR, textStatus, errorThrown) {
-				console.log('---- GRAPH REQUEST FAILED ----');
-				console.log(jqXHR, textStatus);
-			}
-		});
-         
-        var theUI = {
-            nodes:{},
-            edges:{},
-        };
-        theUI.nodes[uri]={color:"red", alpha:1,rootNode:true};
-        theUI.edges[uri]={};
-        var to,link;
-        $(result).each(function(){
-            entityUri = $(this).find('binding[name=to]').text().replace(/(\r\n|\n|\r|\t)/gm,"");
-            link = $(this).find('binding[name=link]').text().replace(/(\r\n|\n|\r|\t)/gm,"");
-            if(link.split('#')[1]!=undefined){//nameless relation
-                label = link.split('#')[1]+' : '+entityUri.replace(conferenceUri,'');
-                
-                theUI.nodes[label] = {color:"orange", alpha:0.6,uri:entityUri};
-                theUI.edges[uri][label] = {length:2};
-            }else{
-                link=link.split('#')[0].split('/');
-                label = link[link.length-1]+' : '+entityUri.replace(conferenceUri,'');
-                
-                theUI.nodes[label] = {color:"#4B610B", alpha:0.5};
-                theUI.edges[uri][label] = {length:2,uri:entityUri};
-                
-            }
-        });
-        renderGraph('#'+canvasId,theUI);
-    };
-};
     /*
     var theUI = {
       nodes:{uri:{color:"red", shape:"dot", alpha:1}, 
@@ -121,6 +51,7 @@ var Graph = ViewAdapter.Graph=function(queryUrl,command,conferenceUri){
       }
     }*/
 
+// option { option.theme a|b|c , option.tiny : bool, option.align : right,option.prepend }
 var appendButton = ViewAdapter.appendButton = function(el,href,label,option){
     if(!href)return;
     if(!option)var option={}

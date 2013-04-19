@@ -39,7 +39,20 @@ Date: 2013/04/18
   * Completely refactored the hash structure to add URIs along with titles as route parameters
   * Model and view callbacks communicate now using JSON objects
   * Simplified the routes and reduced the number of Backbone-triggered events to speed up the interface
-  * Works for the main (SWDF, even if it requests anothe endpoint), Google and DuckDuckGo! datasources
+  * Works for the main (SWDF, even if it requests another endpoint), Google and DuckDuckGo! datasources
   * Added experimental graph view using http://arborjs.org/ (may be slow, especially on mobile phones).
 
 Currently works on our duplicate WWW'2012 dataset (SWDF seems down since the beginning of the week)
+
+---------
+**V. 1.0** (al last!):
+Date: 2013/04/19
+
+**The core function of the app (browsing publication metadata) is now fully functional.**
+
+  * Fixed several bugs and speeded up DBLP datasource (external publications) browsing:
+    * switched to RKBExplorer endpoint (http://dblp.rkbexplorer.com/sparql/)
+    * reduced the number of queries and simplified them
+    * locked item order in the interface (previously depended on the response arrival order)
+
+We also deployed a duplicate ISWC'2012 endpoint (SWDF is still down).

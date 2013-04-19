@@ -18,8 +18,8 @@ Date: 2013/04/13
 Fully functional:
   * Application core
   * Publication datasources:
-    * SWDF: fully functional, configured for the ISWC’2012 dataset
-    * DBLP: fully functional, but the endpoint seems to experiment latency issues
+    * SWDF: functional, configured for the ISWC’2012 dataset
+    * DBLP: functional, but the endpoint seems to experiment latency issues
 
 ---------
 V. 0.8:
@@ -31,3 +31,15 @@ Date: 2013/04/14
   * Added 2 datasources:
     * DuckDuckGo! to retrieve authors' organisation data
     * Google web service to solve DuckDuckGo!'s irrelevancy in retrieving authors' homepages
+
+---------
+V. 0.9:
+Date: 2013/04/18
+
+  * Completely refactored the hash structure to add URIs along with titles as route parameters
+  * Model and view callbacks communicate now using JSON objects
+  * Simplified the routes and reduced the number of Backbone-triggered events to speed up the interface
+  * Works for the main (SWDF, even if it requests anothe endpoint), Google and DuckDuckGo! datasources
+  * Added experimental graph view using http://arborjs.org/ (may be slow, especially on mobile phones).
+
+Currently works on our duplicate WWW'2012 dataset (SWDF seems down since the beginning of the week)

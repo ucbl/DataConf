@@ -58,6 +58,12 @@ AppRouter = Backbone.Router.extend({
 					//Changing view
 					self.changePage(new AbstractView({contentEl :  routeItem.view ,title : title, model : self.conference }));
 					
+					//Generating random number for command content box
+					var randomnumber = Math.floor(Math.random()*20);
+					
+					var graphEl = $('<div id="'+"graph"+randomnumber+'"></div>');
+					$("[data-role = page]").find(".content").prepend(graphEl);
+					
 					//Prepare AJAX call according to the commands declared
 					$.each(routeItem.commands,function(i,commandItem){
 					
@@ -66,7 +72,8 @@ AppRouter = Backbone.Router.extend({
 						var currentCommand    = currentDatasource.commands[commandItem.name];
 						
 						//Generating random number for command content box
-						var randomnumber = Math.floor(Math.random()*11);
+						var randomnumber = Math.floor(Math.random()*20);
+						
 						//Creating the content box of the current command
 						var contentEl = $('<div id="'+commandItem.name+randomnumber+'"></div>');
 						$("[data-role = page]").find(".content").append(contentEl);
@@ -77,6 +84,7 @@ AppRouter = Backbone.Router.extend({
 							console.log("CAll : "+commandItem.name+" ON "+"Storage");
 							//Informations already exists so we directly call the command callBack view to render them 
 							currentCommand.ViewCallBack({JSONdata : JSONdata, contentEl : contentEl, name : name});
+							$("[data-role = page]").trigger("create");
 						}else{
 							console.log("CAll : "+commandItem.name+" ON "+commandItem.datasource);
 							//Retrieveing the query built by the command function "getQuery"
@@ -86,7 +94,7 @@ AppRouter = Backbone.Router.extend({
 						}
 					});
 				  //GRAPH
-				  ViewAdapter.Graph.init(uri);
+				  ViewAdapter.Graph.init(graphEl,uri);
 				});
 			});
 	  
@@ -101,12 +109,13 @@ AppRouter = Backbone.Router.extend({
 			page.render();
 			$('body').append($(page.el));
 			var transition = $.mobile.defaultPageTransition;
-		
-			if (this.firstPage) {
+			
+			if (this.firstPage || ViewAdapter.Graph.enabled) {
 				transition = 'fade';
 				this.firstPage = false;
 			}
 			$.mobile.changePage($(page.el), {changeHash:false, transition: transition});
+			
 		},
 		
 

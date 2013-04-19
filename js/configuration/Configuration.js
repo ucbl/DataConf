@@ -31,8 +31,8 @@
 				},
 				
 				"DblpDatasource" : {
-					"uri" : "http://dblp.l3s.de/d2r/sparql",
-					"crossDomainMode" : "JSONP",
+					"uri" : "http://dblp.rkbexplorer.com/sparql/",
+					"crossDomainMode" : "CORS",
 					"commands" : DBLPCommandStore,
 				},
 
@@ -172,7 +172,7 @@
 						},
 					    {
 							"datasource" : "DblpDatasource",
-							"name" : "getAuthor",
+							"name" : "getAuthorPublications",
 						}
 						
 					]
@@ -185,6 +185,10 @@
 					    {
 							"datasource" : "DblpDatasource",
 							"name" : "getExternPublicationInfo",
+						},
+						{
+							"datasource" : "DblpDatasource",
+							"name" : "getExternPublicationAuthors",
 						}
 					]
 				},

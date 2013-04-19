@@ -6,7 +6,7 @@
 *				 Each one of those commands declare the datatype, the method, the query string it is supposed to use on the endpoint and provide the Callback function used to parse the results.		
 *				 To declare a request, each commands can use the parameters declared for the route they are called in (see Configuration.js). This parameter can be a name or an uri and represents
 *				 the entity which we want informations on. After calling a command, the results are parsed with it own callback function. It is the role of the router to call those commands according to the configuration file.
-*   Version: 0.8
+*   Version: 1.0
 *   Tags:  JSON, AJAX
 **/
  var GoogleCommandStore = {
@@ -34,8 +34,9 @@
 			if(JSONdata.hasOwnProperty("getAuthorPersonalPage")){
 				var authorHomepage = JSONdata.getAuthorPersonalPage;
 				if(_.size(authorHomepage) > 0 ){		  
-					var homepageUrl  = authorHomepage[0].authorHomepage;			
-					parameters.contentEl.append('<h2>Personal Page</h2>').trigger("create");	
+					var homepageUrl  = authorHomepage[0].authorHomepage;
+					ViewAdapter.Graph.addNode("Personnal page : "+homepageUrl, homepageUrl);
+					parameters.contentEl.append('<h2>Personal Page</h2>');	
 					parameters.contentEl.append('<a href="'+homepageUrl+'" >'+homepageUrl+'</a>');	
 				}
 			}

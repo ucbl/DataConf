@@ -1,9 +1,9 @@
 /**   
-* Copyright <c> Claude Bernard - University Lyon 1 -  2013
-*  License : This file is part of the DataConf application, which is licensed under a Creative Commons Attribution-NonCommercial 3.0 Unported License. See details at : http://liris.cnrs.fr/lionel.medini/wiki/doku.php?id=dataconf&#licensing 
+*	Copyright <c> Claude Bernard - University Lyon 1 -  2013
+* 	License : This file is part of the DataConf application, which is licensed under a Creative Commons Attribution-NonCommercial 3.0 Unported License. See details at : http://liris.cnrs.fr/lionel.medini/wiki/doku.php?id=dataconf&#licensing 
 *   Author: Lionel MEDINI(supervisor), Florian BACLE, Fiona LEPEUTREC, Benoît DURANT-DE-LA-PASTELLIERE, NGUYEN Hoang Duy Tan
 *   Description: This file provide simple function to build jquery mobile element such as button or sorted list plus some graph first attempt
-*   Version: 1.0
+*   Version: 0.8
 *   Tags:  Backbone Jquery-ui-mobile Adapter 
 **/
 
@@ -26,9 +26,24 @@ var appendButton = ViewAdapter.appendButton = function(el,href,label,option){
         $(  '<a href="'+href+'" data-role="button" ' +
             (option.tiny?'data-inline="true"':'data-icon="arrow-r" data-iconpos="right"') +
             (option.theme?'data-theme="'+option.theme+'"':'') +
-   (option.align?'style="float:'+option.align+';"':'') +
+			(option.align?'style="float:'+option.align+';"':'') +
             '>'+(label==""?href:label) +'</a>'); 
- el.append(newButton);
+	el.append(newButton);
+    return newButton;
+};
+ 
+ var prependButton = ViewAdapter.prependButton = function(el,href,label,option){
+	
+    if(!href)return;
+    if(!option)var option={}
+    var newButton = 
+        $(  '<a href="'+href+'" data-role="button" ' +
+            (option.tiny?'data-inline="true"':'data-icon="arrow-r" data-iconpos="right"') +
+            (option.theme?'data-theme="'+option.theme+'"':'') +
+			(option.align?'style="float:'+option.align+';"':'') +
+			
+            '>'+(label==""?href:label) +'</a>'); 
+		el.prepend(newButton);
     return newButton;
 };
 
@@ -65,10 +80,10 @@ var appendList = ViewAdapter.appendList = function(dataList,baseHref,hrefCllbck,
                   (_.size(dataList) > 10?'data-filter="true" ':'')+
                   'data-filter-placeholder="filter ..." class="ui-listview ui-corner-all ui-shadow"> ');
                   
-   $.each(dataList, function(i,currentData){
-     var currentHref=baseHref+hrefCllbck(currentData);
-     var currentLabel=currentData[labelProperty];
-   
+			$.each(dataList, function(i,currentData){
+			  var currentHref=baseHref+hrefCllbck(currentData);
+			  var currentLabel=currentData[labelProperty];
+			
         //count
         if(option.count && i!=0 ){
         
@@ -87,36 +102,36 @@ var appendList = ViewAdapter.appendList = function(dataList,baseHref,hrefCllbck,
         
           //graph node
           if(graphPt){
-         var nodeLabel = graphPt.labelCllbck(currentData);
-         ViewAdapter.Graph.addNode(nodeLabel,currentHref);
-       }
+			      var nodeLabel = graphPt.labelCllbck(currentData);
+			      ViewAdapter.Graph.addNode(nodeLabel,currentHref);
+			    }
           ulContainer.append(
                   $('<li></li>').append(
                       $('<a href='+currentHref+'>'+currentLabel+'</a>')
                                  .append($(bubble)))) ;
          currentRank++;
         }
-     
-     
-   });//end each
+			  
+			  
+			});//end each
        ulContainer.appendTo(appendToDiv);
 }
  
 
 
-        /************ basic append functions ************/
+            /************ basic append functions ************/
 
-		var appendToBackboneView = ViewAdapter.appendToBackboneView=function(div){
-			if(!div)return;
-			var el=$(div)
-			$("[data-role = page]").find(".content").append(el).trigger("create"); 
-			return el;
-		};
+var appendToBackboneView = ViewAdapter.appendToBackboneView=function(div){
+    if(!div)return;
+    var el=$(div)
+    $("[data-role = page]").find(".content").append(el).trigger("create"); 
+    return el;
+};
 
-		var prependToBackboneView = ViewAdapter.prependToBackboneView=function(div){
-			if(!div)return;
-			var el=$(div)
-			$("[data-role = page]").find(".content").prepend(el).trigger("create");
-			return el;
-		};
+var prependToBackboneView = ViewAdapter.prependToBackboneView=function(div){
+    if(!div)return;
+    var el=$(div)
+    $("[data-role = page]").find(".content").prepend(el).trigger("create");
+    return el;
+};
 }).call(this);

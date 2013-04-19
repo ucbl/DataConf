@@ -6,7 +6,7 @@
 *				 Each one of those commands declare the datatype, the method, the query string it is supposed to use on the endpoint and provide the Callback function used to parse the results.		
 *				 To declare a request, each commands can use the parameters declared for the route they are called in (see Configuration.js). This parameter can be a name or an uri and represents
 *				 the entity which we want informations on. After calling a command, the results are parsed with it own callback function. It is the role of the router to call those commands according to the configuration file.
-*   Version: 0.8
+*   Version: 1.0
 *   Tags:  JSON, SPARQL, AJAX
 **/
  var DDGoCommandStore = {
@@ -56,10 +56,12 @@
 						parameters.contentEl.append('<p>'+Heading+'</p>'); 
 					}
 					if(AbstractText != ""){ 
+						ViewAdapter.Graph.addLeaf("Abstract :"+AbstractText);
 						parameters.contentEl.append('<h2>Abstract</h2>');
 						parameters.contentEl.append('<p>'+AbstractText+'</p>'); 
 					}
 					if(FirstURL !== undefined){ 
+						ViewAdapter.Graph.addLeaf("Homepage :"+FirstURL);
 						parameters.contentEl.append('<h2>Homepage</h2>');
 						parameters.contentEl.append('<a href="'+FirstURL+'">'+FirstURL+'</a>'); 
 					}			  

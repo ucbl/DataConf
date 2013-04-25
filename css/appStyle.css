@@ -1,13 +1,29 @@
 
- H2, H3 {
+H2, H3 {
 	color : #C96E28;
-
 }
+
+H1 , H2 {
+	font-size : 14pt !important;
+}
+
+ H3, H4{
+	font-size : 13pt !important;
+}
+a, span {
+	font-size : 10pt !important;
+}
+
+p{
+	font-size : 12pt !important;
+	color: black;
+}
+
 
 #logoContainer{
 	float:left;
-	height : 60px;
-	width: 100px;
+	height : 40px;
+	width: 70px;
 }
 
 #logoContainer a {
@@ -27,7 +43,7 @@
 #textHeader H1{
 
   text-align: center;
-  font-size: 30px;
+  
 }
 
 

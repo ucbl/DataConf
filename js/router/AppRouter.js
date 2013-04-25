@@ -9,7 +9,7 @@
 *				RUNTIME:
 *					-> Using the powerfull routing system of backbone, the router catch url changes. If a change occurs, the router execute the action prepared at initialization time
 *					and process the view changes plus the AJAX call.
-*					   
+*	Version: 1.1				   
 *   Tags:  BACKBONE, AJAX, ROUTING
 **/
 AppRouter = Backbone.Router.extend({
@@ -29,6 +29,7 @@ AppRouter = Backbone.Router.extend({
 			//Saving the routes definition
 			this.routes = this.configuration.routes;
 			
+		  ViewAdapter.Graph.init();
 
 			$.each(this.datasources,function(i,datasourceItem){
 				console.log("******* DATASOURCE ********");
@@ -44,26 +45,35 @@ AppRouter = Backbone.Router.extend({
 				console.log("******* ROUTE ********");
 				console.log(routeItem);
 				
+			  
 				//Preparing the function to use when catching the current route
 				self.route(routeItem.hash, function(name, uri) {
 					
 					var title = "";
 					if(name !== undefined){
-						title = name.split("_").join(" ");
+						name = Encoder.decode(name);
+						title = name;
 					}
 					if(uri == undefined){
 						title = routeItem.title;	
 						uri = name;
+					}else{
+						uri = Encoder.decode(uri);
 					}
+					 
+
 					//Changing view
-					self.changePage(new AbstractView({contentEl :  routeItem.view ,title : title, model : self.conference }));
+					self.changePage(new AbstractView({templateName :  routeItem.view ,title : title, model : self.conference }));
 					
 					//Generating random number for command content box
 					var randomnumber = Math.floor(Math.random()*20);
 					
-					var graphEl = $('<div id="'+"graph"+randomnumber+'"></div>');
-					$("[data-role = page]").find(".content").prepend(graphEl);
-					
+				  //GRAPH
+					var graphEl = $('<div id="graph'+randomnumber+'"></div>');
+					$("[data-role = page]").find(".content").prepend(graphEl);   
+					ViewAdapter.Graph.initBtn(graphEl);
+					ViewAdapter.Graph.initRootNode(uri);
+				  
 					//Prepare AJAX call according to the commands declared
 					$.each(routeItem.commands,function(i,commandItem){
 					
@@ -92,9 +102,8 @@ AppRouter = Backbone.Router.extend({
 							//Preparing Ajax call 
 							self.executeCommand({datasource : currentDatasource, command : currentCommand,commandName : commandItem.name,data : ajaxData, currentUri : uri, contentEl : contentEl});
 						}
+						
 					});
-				  //GRAPH
-				  ViewAdapter.Graph.init(graphEl,uri);
 				});
 			});
 	  
@@ -105,7 +114,9 @@ AppRouter = Backbone.Router.extend({
 		/************************************************      PAGE CHANGE HANDLERS            **************************************/
 		/** Chaning page handling, call the rendering of the page and execute transition **/
 		changePage:function (page) {
-		   $(page.el).attr('data-role', 'page');
+			
+		    $(page.el).attr('data-role', 'page');
+			
 			page.render();
 			$('body').append($(page.el));
 			var transition = $.mobile.defaultPageTransition;
@@ -116,6 +127,9 @@ AppRouter = Backbone.Router.extend({
 			}
 			$.mobile.changePage($(page.el), {changeHash:false, transition: transition});
 			
+			$(page.el).bind('pagehide', function(event, data) {
+				$(event.currentTarget).remove();
+			});
 		},
 		
 
@@ -151,6 +165,7 @@ AppRouter = Backbone.Router.extend({
 			}else{
 				jQuery.support.cors = false;	
 			} 
+			$.mobile.loading( 'show' );
 			//Sending AJAX request on the datasource
 			$.ajax({
 				url: datasource.uri,
@@ -159,12 +174,13 @@ AppRouter = Backbone.Router.extend({
 				dataType: command.dataType,
 				data: data,	
 				success: function(data){command.ModelCallBack(data,self.conference.baseUri,datasource.uri,currentUri);
-										
+										$.mobile.loading( 'hide' );
 										command.ViewCallBack({JSONdata : StorageManager.pullFromStorage(currentUri,commandName), contentEl : contentEl});
 										$("[data-role = page]").trigger("create");
 										},
 				error: function(jqXHR, textStatus, errorThrown) { 
 					console.log(errorThrown);
+					$.mobile.loading( 'hide' );
 				}
 			});
 		}

@@ -4,7 +4,7 @@
 *   Author: Lionel MEDINI(supervisor), Florian BACLE, Fiona LEPEUTREC, Benoît DURANT-DE-LA-PASTELLIERE, NGUYEN Hoang Duy Tan
 *   Description: This file contains the functions used to get and store all the templates found on /templates. The storing system uses an array of the template's name to load (see entryPoint/main.js)
 *				 When loaded, every template are accessible by their name using the "get" method
-*					   
+*	Version: 1.1				   
 *   Tags:  TEMPLATE
 **/
 var tpl = {

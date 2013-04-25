@@ -5,7 +5,7 @@
 *   Description: This object contains method for save and pick JSON file in local storage.
 *				 The method pushToStorage(uri, commandName,JSONdata) check if data doesn't exist in local storage, in that case save data JSONData in paramaters with the key,id.
 *				 The methode pullFromStorage(uri, commandName,id) look for the data with the Key ,id .If something exist, return the JSONFile corresponding to the key, else return undefined.
-*   Version: 0.8
+*   Version: 1.1
 *   Tags:  JSON, Local Storage
 **/
 

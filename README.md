@@ -45,7 +45,7 @@ Date: 2013/04/18
 Currently works on our duplicate WWW'2012 dataset (SWDF seems down since the beginning of the week)
 
 ---------
-**V. 1.0** (al last!):
+**V. 1.0** (at last!):
 Date: 2013/04/19
 
 **The core function of the app (browsing publication metadata) is now fully functional.**
@@ -56,3 +56,17 @@ Date: 2013/04/19
     * locked item order in the interface (previously depended on the response arrival order)
 
 We also deployed a duplicate ISWC'2012 endpoint (SWDF is still down).
+
+---------
+V. 1.1:
+Date: 2013/04/25
+
+  * New functions:
+    * Added viewing (and browsing) keynote metadata
+    * Fully functional QR Code scanning in JS (using llqrcode.js)
+    * From a publication view, users can now access the session / track where it is presented (and thus its schedule).
+  * Improvements:
+    * Browsing external publications from RKBExplorer is fully functional
+    * URL-encoded the labels and URI
+    * Speeded up the graph view
+

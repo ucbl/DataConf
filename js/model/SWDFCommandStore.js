@@ -466,18 +466,22 @@ var SWDFCommandStore = {
 	    getQuery : function(parameters){
 
 		
-		    var prefix =	'PREFIX swc: <http://data.semanticweb.org/ns/swc/ontology#>                              ' +
-						    'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>                                    ' +
-							'PREFIX dc: <http://purl.org/dc/elements/1.1/>                                           ' +
-						    'PREFIX ical: <http://www.w3.org/2002/12/cal/ical#>                                      ' ;
+		    var prefix =	'PREFIX swc: <http://data.semanticweb.org/ns/swc/ontology#>' +
+						    'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>      ' +
+							'PREFIX dc: <http://purl.org/dc/elements/1.1/>             ' +
+							'PREFIX swrc: <http://swrc.ontoware.org/ontology#>         ' +
+						    'PREFIX iCal: <http://www.w3.org/2002/12/cal/ical#>        ' ;
 						
-		    var query = 	'SELECT DISTINCT ?eventLabel ?eventDescription ?eventLocation ?locationName ?eventStart ?eventEnd  WHERE {                   ' +
-						    '	OPTIONAL { <'+parameters.uri+'> rdfs:label ?eventLabel.}                                        ' +
-							'	OPTIONAL { <'+parameters.uri+'> dc:description  ?eventDescription.}                             ' +
-						    '	OPTIONAL { <'+parameters.uri+'> swc:hasLocation ?eventLocation.                                 ' +
-						    '	?eventLocation  rdfs:label ?locationName.'+'}                                                          ' +
-						    '	OPTIONAL { <'+parameters.uri+'> <http://www.w3.org/2002/12/cal/icaltzd#dtstart> ?eventStart.}   ' +
-						    '	OPTIONAL { <'+parameters.uri+'> <http://www.w3.org/2002/12/cal/icaltzd#dtend>?eventEnd.}        ' +
+		    var query = 	'SELECT DISTINCT ?eventLabel ?eventDescription ?eventAbstract  ?locationName ?eventStart ?eventEnd ?eventStartCal ?eventEndCal WHERE {                   ' +
+						    '	OPTIONAL { <'+parameters.uri+'> rdfs:label ?eventLabel.} ' +
+							'	OPTIONAL { <'+parameters.uri+'> dc:description  ?eventDescription.}' +
+							'	OPTIONAL { <'+parameters.uri+'> swrc:abstract ?eventAbstract. } '+
+						    '	OPTIONAL { <'+parameters.uri+'> swc:hasLocation ?eventLocation. ' +
+						    '	?eventLocation  rdfs:label ?locationName.}  ' +
+						    '	OPTIONAL { <'+parameters.uri+'> <http://www.w3.org/2002/12/cal/icaltzd#dtstart> ?eventStart.}' +
+						    '	OPTIONAL { <'+parameters.uri+'> <http://www.w3.org/2002/12/cal/icaltzd#dtend> ?eventEnd.}' +
+							'	OPTIONAL { <'+parameters.uri+'> iCal:dtStart ?eventStartCal.} ' +
+						    '	OPTIONAL { <'+parameters.uri+'> iCal:dtEnd   ?eventEndCal.}' +
 						    '}';
 		    var  ajaxData = { query : prefix+query };
 			return ajaxData;
@@ -493,9 +497,15 @@ var SWDFCommandStore = {
 				JSONfile["eventLabel"] =  $(dataXML).find("[name = eventLabel]").text();
 				JSONfile["eventLocation"] =  $(dataXML).find("[name = eventLocation]").text(); 
 				JSONfile["eventDescription"] =  $(dataXML).find("[name = eventDescription]").text(); 
-				JSONfile["eventLocationName"] =  $(dataXML).find("[name = locationName]").text();  
-				JSONfile["eventStart"] =  $(dataXML).find("[name = eventStart]").text(); 
-				JSONfile["eventEnd"] =  $(dataXML).find("[name = eventEnd]").text();
+				JSONfile["eventAbstract"] =  $(dataXML).find("[name = eventAbstract]").text(); 
+				JSONfile["eventLocationName"] =  $(dataXML).find("[name = locationName]").text();
+				if($(dataXML).find("[name = eventStart]").text() != ""){
+					JSONfile["eventStart"] =  $(dataXML).find("[name = eventStart]").text(); 
+					JSONfile["eventEnd"] =  $(dataXML).find("[name = eventEnd]").text();
+				}else{
+					JSONfile["eventStart"] =  $(dataXML).find("[name = eventStartCal]").text(); 
+					JSONfile["eventEnd"] =  $(dataXML).find("[name = eventEndCal]").text();
+				}
 				
 
 				StorageManager.pushToStorage(currentUri,"getEvent",JSONfile);
@@ -514,7 +524,8 @@ var SWDFCommandStore = {
 								  
 						var eventLabel  = eventInfo.eventLabel;				
 						var eventLocation  = eventInfo.eventLocation;
-						var eventDescription  = eventInfo.eventDescription;					
+						var eventDescription  = eventInfo.eventDescription;
+						var eventAbstract  = eventInfo.eventAbstract;							
 						var locationName  = eventInfo.eventLocationName;	
 						var eventStart  = eventInfo.eventStart;	
 						var eventEnd  = eventInfo.eventEnd;
@@ -523,6 +534,11 @@ var SWDFCommandStore = {
 							ViewAdapter.Graph.addLeaf("Description :"+eventDescription);
 							parameters.contentEl.append($('<h2>Description</h2>')); 
 							parameters.contentEl.append($('<p>'+eventDescription+'</p>'));   
+						}
+						if(eventAbstract != ""){ 
+							ViewAdapter.Graph.addLeaf("Abstract :"+eventAbstract);
+							parameters.contentEl.append($('<h2>Abstract</h2>')); 
+							parameters.contentEl.append($('<p>'+eventAbstract+'</p>'));   
 						}
 						if(eventStart != ""){ 
 							parameters.contentEl.append($('<h2>Schedule</h2>')); 
@@ -562,7 +578,7 @@ var SWDFCommandStore = {
 							'	<'+parameters.uri+'> swc:isSuperEventOf  ?eventUri. ' +
 						    '	?eventUri swc:hasRelatedDocument ?publiUri.                ' +
 						    '	?publiUri dc:title ?publiTitle.                            ' +
-						    '}';
+						    '}ORDER BY ASC(?publiTitle)';
 		    var  ajaxData ={ query : prefix+query };
 			return ajaxData;
 		
@@ -619,7 +635,7 @@ var SWDFCommandStore = {
 						    '	<'+conferenceUri+'> swc:isSuperEventOf  ?eventUri.        ' +
 						    '	?eventUri rdf:type swc:TrackEvent.                        ' +
 						    '	?eventUri rdfs:label ?eventLabel                          ' +
-							'}';
+							'}ORDER BY ASC(?eventLabel)';
 		    var  ajaxData = { query : prefix+query };
 			return ajaxData;
 	    },
@@ -728,7 +744,7 @@ var SWDFCommandStore = {
 							' ?talkEvent swc:isSubEventOf ?sessionEvent.' +
 							 '?sessionEvent rdf:type swc:SessionEvent.' +
 							' ?sessionEvent rdfs:label ?sessionEventLabel.' +
-							'}';
+							'}ORDER BY ASC(?sessionEventLabel)';
 		    var  ajaxData = { query : prefix+query };
 			return ajaxData;
 	    },
@@ -782,7 +798,7 @@ var SWDFCommandStore = {
 						    '	OPTIONAL {?eventUri rdfs:label ?eventLabel .  }                       ' +
 							' FILTER regex(str(?eventUri), "'+conferenceUri+'","i") .'+
 							' FILTER regex(str(?eventLabel), "keynote","i") .'+
-							'}';
+							'}ORDER BY ASC(?eventLabel)';
 		    var  ajaxData = { query : prefix+query };
 			return ajaxData;
 	    },

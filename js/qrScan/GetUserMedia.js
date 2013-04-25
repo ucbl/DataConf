@@ -202,7 +202,7 @@ function setwebcam()
 	  // camera activation prompt  http://dev.w3.org/2011/webrtc/editor/getusermedia.html#navigatorusermedia 
 	  requestMedia({video:true}, mediaSuccess, mediaError);
 	  stype=1;
-  } else { 
+  } else {
 	  document.getElementById("message").innerHTML = 'getUserMedia() is not supported in your browser';
   } 
 }
